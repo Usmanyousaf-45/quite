@@ -67,19 +67,6 @@ export default function Navbar() {
             )
           })}
         </ul>
-
-        {/* RIGHT CTA */}
-        <div className="hidden md:block">
-          <Link
-            href="/contact"
-            className="px-6 py-2 rounded-full text-sm font-semibold
-            bg-linear-to-r from-pink-500 via-fuchsia-500 to-cyan-400
-            text-white shadow-[0_0_30px_rgba(236,72,153,0.5)]
-            hover:scale-105 transition"
-          >
-            Hire Me
-          </Link>
-        </div>
       </div>
     </nav>
   )

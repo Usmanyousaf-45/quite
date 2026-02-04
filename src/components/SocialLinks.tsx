@@ -20,7 +20,7 @@ export default function SocialLinks() {
     >
       {/* Facebook */}
       <a
-        href="https://www.facebook.com/profile.php?id=61578277601062"
+        href="https://facebook.com"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Facebook"
@@ -33,7 +33,7 @@ export default function SocialLinks() {
 
       {/* Instagram */}
       <a
-        href="https://www.instagram.com/usmanyousaf597/?hl=en"
+        href="https://instagram.com"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram"
@@ -56,7 +56,7 @@ export default function SocialLinks() {
 
       {/* LinkedIn */}
       <a
-        href="https://www.linkedin.com/in/usman-yousaf-733142378/"
+        href="https://linkedin.com"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn"
@@ -64,6 +64,19 @@ export default function SocialLinks() {
       >
         <svg className="w-7 h-7 fill-[#0A66C2]" viewBox="0 0 24 24">
           <path d="M4 3a2 2 0 100 4 2 2 0 000-4zm1 6H3v12h2V9zm4 0H7v12h2v-6c0-3.3 4-3.6 4 0v6h2v-7c0-5.4-6-5.2-6-2.5V9z"/>
+        </svg>
+      </a>
+
+      {/* TikTok */}
+      <a
+        href="https://www.tiktok.com/@usmanyousaf508"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="TikTok"
+        className="hover:scale-110 transition drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]"
+      >
+        <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24">
+          <path d="M21 8.5a6.5 6.5 0 01-5.3-2.7v9.1a5.4 5.4 0 11-5.4-5.4c.3 0 .6 0 .9.1v2.8a2.6 2.6 0 10 1.8 2.5V2h2.7a6.5 6.5 0 005.3 2.7z"/>
         </svg>
       </a>
     </div>
