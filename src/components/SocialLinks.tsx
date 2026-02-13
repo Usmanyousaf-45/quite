@@ -9,6 +9,7 @@ export default function SocialLinks() {
     const onScroll = () => {
       setVisible(window.scrollY > 80)
     }
+
     window.addEventListener("scroll", onScroll)
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
@@ -20,7 +21,7 @@ export default function SocialLinks() {
     >
       {/* Facebook */}
       <a
-        href="https://facebook.com"
+        href="https://www.facebook.com/profile.php?id=61578277601062"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Facebook"
@@ -33,7 +34,7 @@ export default function SocialLinks() {
 
       {/* Instagram */}
       <a
-        href="https://instagram.com"
+        href="https://www.instagram.com/futurebiosai/"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram"
@@ -77,6 +78,19 @@ export default function SocialLinks() {
       >
         <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24">
           <path d="M21 8.5a6.5 6.5 0 01-5.3-2.7v9.1a5.4 5.4 0 11-5.4-5.4c.3 0 .6 0 .9.1v2.8a2.6 2.6 0 10 1.8 2.5V2h2.7a6.5 6.5 0 005.3 2.7z"/>
+        </svg>
+      </a>
+
+      {/* YouTube */}
+      <a
+        href="https://youtube.com/@FutureBiosAI"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="YouTube"
+        className="hover:scale-110 transition drop-shadow-[0_0_10px_rgba(255,0,0,0.8)]"
+      >
+        <svg className="w-7 h-7 fill-[#FF0000]" viewBox="0 0 24 24">
+          <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.7 3.5 12 3.5 12 3.5s-7.7 0-9.4.6A3 3 0 00.5 6.2 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.8 3 3 0 002.1 2.1c1.7.6 9.4.6 9.4.6s7.7 0 9.4-.6a3 3 0 002.1-2.1A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.8zM9.8 15.5v-7l6.2 3.5-6.2 3.5z"/>
         </svg>
       </a>
     </div>
