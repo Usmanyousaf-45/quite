@@ -20,6 +20,7 @@ export default function ProjectsPage() {
         />
 
         <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
+          
           <ProjectCard
             title="E-commerce Store"
             description="A modern e-commerce platform with clean UI and smooth user experience."
@@ -31,8 +32,14 @@ export default function ProjectsPage() {
             title="Usman GPT"
             description="An AI-powered tool built to experiment with automation and smart workflows."
             image="/2.png"
-            link="https://usman-gpt.vercel.app/"
+            link="https://usman-gpt.vercel.app/"/>
+               <ProjectCard
+            title="Shop Billing App"
+            description="A professional shop billing system with item management, invoice generation, and total calculation."
+            image="/4.png"
+            link="https://billing-psi-eight.vercel.app/"
           />
+
         </div>
       </div>
     </section>
