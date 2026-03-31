@@ -14,6 +14,18 @@ export default function SocialLinks() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  const speak = (text: string) => {
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text)
+      const voices = window.speechSynthesis.getVoices()
+      const voice = voices.find(v => v.lang.includes("en")) || voices[0]
+      utterance.voice = voice
+      utterance.rate = 0.9
+      utterance.pitch = 1
+      window.speechSynthesis.speak(utterance)
+    }
+  }
+
   return (
     <div
       className={`fixed bottom-6 right-6 z-50 flex gap-6 transition-all duration-700
@@ -25,6 +37,7 @@ export default function SocialLinks() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Facebook"
+        onClick={() => speak("Facebook")}
         className="hover:scale-110 transition drop-shadow-[0_0_10px_rgba(24,119,242,0.8)]"
       >
         <svg className="w-7 h-7 fill-[#1877F2]" viewBox="0 0 24 24">
@@ -38,6 +51,7 @@ export default function SocialLinks() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram"
+        onClick={() => speak("Instagram")}
         className="hover:scale-110 transition drop-shadow-[0_0_10px_rgba(221,42,123,0.8)]"
       >
         <svg className="w-7 h-7" viewBox="0 0 24 24">
@@ -61,6 +75,7 @@ export default function SocialLinks() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn"
+        onClick={() => speak("LinkedIn")}
         className="hover:scale-110 transition drop-shadow-[0_0_10px_rgba(10,102,194,0.8)]"
       >
         <svg className="w-7 h-7 fill-[#0A66C2]" viewBox="0 0 24 24">
@@ -74,6 +89,7 @@ export default function SocialLinks() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="TikTok"
+        onClick={() => speak("TikTok")}
         className="hover:scale-110 transition drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]"
       >
         <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24">
@@ -81,16 +97,17 @@ export default function SocialLinks() {
         </svg>
       </a>
 
-      {/* YouTube */}
+      {/* WhatsApp */}
       <a
-        href="https://youtube.com/@FutureBiosAI"
+        href="https://wa.me/923428875879"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="YouTube"
-        className="hover:scale-110 transition drop-shadow-[0_0_10px_rgba(255,0,0,0.8)]"
+        aria-label="WhatsApp"
+        onClick={() => speak("WhatsApp")}
+        className="hover:scale-110 transition drop-shadow-[0_0_10px_rgba(37,211,102,0.9)]"
       >
-        <svg className="w-7 h-7 fill-[#FF0000]" viewBox="0 0 24 24">
-          <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.7 3.5 12 3.5 12 3.5s-7.7 0-9.4.6A3 3 0 00.5 6.2 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.8 3 3 0 002.1 2.1c1.7.6 9.4.6 9.4.6s7.7 0 9.4-.6a3 3 0 002.1-2.1A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.8zM9.8 15.5v-7l6.2 3.5-6.2 3.5z"/>
+        <svg className="w-7 h-7 fill-[#25D366]" viewBox="0 0 24 24">
+          <path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm5.5 13.7c-.2.6-1.2 1.1-1.6 1.2-.4.1-.9.2-1.5 0-.3-.1-.8-.3-1.3-.5-2.2-1-3.7-3.5-3.8-3.7-.1-.2-.9-1.2-.9-2.3 0-1.1.6-1.6.8-1.8.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.8 1.9.9 2 .1.1.1.3 0 .5-.1.2-.2.3-.3.4-.1.1-.2.3-.3.4-.1.1-.2.3-.1.5.1.2.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.2.1.4.1.6-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.6-.1.2.1 1.5.7 1.8.8.3.1.5.2.6.3.1.1.1.7-.1 1.3z"/>
         </svg>
       </a>
     </div>

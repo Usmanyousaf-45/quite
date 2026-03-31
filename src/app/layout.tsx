@@ -2,6 +2,7 @@ import "./globals.css"
 import type { Metadata } from "next"
 import Navbar from ".././components/Navbar"
 import Footer from ".././components/Footer"
+import SocialLinks from "../components/SocialLinks"
 
 export const metadata: Metadata = {
   title: "Usman Yousaf — Portfolio",
@@ -30,7 +31,7 @@ export default function RootLayout({
         <header className="sticky top-0 z-50 backdrop-blur-xl bg-black/60 border-b border-white/10">
           <Navbar />
         </header>
-
+<SocialLinks />
         {/* Main */}
         <main className="flex-1 w-full">{children}</main>
 
@@ -40,5 +41,6 @@ export default function RootLayout({
         </footer>
       </body>
     </html>
+    
   )
 }
