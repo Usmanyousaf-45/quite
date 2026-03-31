@@ -3,13 +3,11 @@
 import { useState, useEffect, FormEvent } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import SectionTitle from "@/components/SectionTitle"
-import Confetti from "react-confetti"
 
 export default function ContactPage() {
   const [showPage, setShowPage] = useState(false)
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle")
-  const [triggerConfetti, setTriggerConfetti] = useState(false)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +19,6 @@ export default function ContactPage() {
   const speakText = (text: string) => {
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance(text)
-
       const voices = window.speechSynthesis.getVoices()
       const voice =
         voices.find(v => v.lang.includes("en") && !v.name.toLowerCase().includes("child")) ||
@@ -38,12 +35,8 @@ export default function ContactPage() {
 
   // Loader with initial TTS
   useEffect(() => {
-    // Speak "Get in Touch"
     const voiceTimeout = setTimeout(() => speakText("Get in Touch"), 100)
-
-    // Show page after 2 seconds
     const timer = setTimeout(() => setShowPage(true), 2000)
-
     return () => {
       clearTimeout(timer)
       clearTimeout(voiceTimeout)
@@ -67,7 +60,6 @@ export default function ContactPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setTriggerConfetti(false)
 
     try {
       const res = await fetch("/api/contact", {
@@ -81,7 +73,6 @@ export default function ContactPage() {
       if (data.success) {
         setStatus("success")
         setFormData({ name: "", email: "", message: "" })
-        setTriggerConfetti(true)
         speakText("Message sent successfully!") // Success speech
       } else {
         setStatus("error")
@@ -108,15 +99,6 @@ export default function ContactPage() {
 
   return (
     <>
-      {triggerConfetti && (
-        <Confetti
-          recycle={false}
-          numberOfPieces={250}
-          gravity={0.3}
-          colors={["#EC4899", "#22D3EE", "#8B5CF6"]}
-        />
-      )}
-
       <AnimatePresence>
         {status !== "idle" && (
           <motion.div
@@ -153,9 +135,7 @@ export default function ContactPage() {
             >
               🤖
             </motion.div>
-            <h2 className="mt-6 text-3xl font-bold">
-              Get in Touch… 💌
-            </h2>
+            <h2 className="mt-6 text-3xl font-bold">Get in Touch… 💌</h2>
           </motion.div>
         </section>
       ) : (
