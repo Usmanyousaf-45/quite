@@ -122,7 +122,7 @@ export default function Home() {
                 Hi, I’m <span className="text-pink-400">Usman Yousaf</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-300">
-                Crafting <span className="text-cyan-400 font-semibold">AI-driven automation</span> and
+                Crafting <span className="text-cyan-300 font-semibold">AI-driven automation</span> and
                 intelligent workflows with <span className="font-semibold">Next.js</span>,{" "}
                 <span className="font-semibold">TypeScript</span>, & <span className="font-semibold">n8n</span>.
               </p>
