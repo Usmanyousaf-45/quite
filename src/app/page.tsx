@@ -7,13 +7,16 @@ import SocialLinks from "../components/SocialLinks"
 
 export default function Home() {
   const [showPage, setShowPage] = useState(false)
+  const [hasSpokenOnScroll, setHasSpokenOnScroll] = useState<{ projects: boolean; contact: boolean }>({
+    projects: false,
+    contact: false,
+  })
 
-  // Function to speak welcome message safely
-  const speakWelcome = (text: string) => {
+  // Function to speak text
+  const speakText = (text: string) => {
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance(text)
 
-      // Wait for voices to load
       const setVoice = () => {
         const voices = window.speechSynthesis.getVoices()
         const friendlyVoice =
@@ -26,25 +29,45 @@ export default function Home() {
         window.speechSynthesis.speak(utterance)
       }
 
-      // Check if voices already loaded
+      // If voices are loaded, speak immediately
       if (window.speechSynthesis.getVoices().length > 0) {
         setVoice()
       } else {
-        window.speechSynthesis.onvoiceschanged = () => {
-          setVoice()
-        }
+        // Wait for voices to load
+        window.speechSynthesis.onvoiceschanged = () => setVoice()
       }
     }
   }
 
   useEffect(() => {
-    // Speak welcome when component mounts (every page load)
-    speakWelcome("Welcome to my Portfolio")
-
-    // Show main page after 2.5 seconds
+    // Speak immediately on render
+    speakText("Welcome to my Portfolio")
     const timer = setTimeout(() => setShowPage(true), 2500)
     return () => clearTimeout(timer)
   }, [])
+
+  // Scroll-based prompts
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const viewportHeight = window.innerHeight
+
+      // Speak about Projects section
+      if (scrollY > viewportHeight * 0.2 && !hasSpokenOnScroll.projects) {
+        speakText("Check my Projects section to see my work")
+        setHasSpokenOnScroll(prev => ({ ...prev, projects: true }))
+      }
+
+      // Speak about Contact section
+      if (scrollY > viewportHeight * 1.2 && !hasSpokenOnScroll.contact) {
+        speakText("Feel free to Contact me for collaboration")
+        setHasSpokenOnScroll(prev => ({ ...prev, contact: true }))
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [hasSpokenOnScroll])
 
   return (
     <>
@@ -69,7 +92,7 @@ export default function Home() {
           </motion.div>
         </section>
       ) : (
-        <section className="relative min-h-screen flex items-center justify-center px-8 overflow-hidden bg-black text-white">
+        <section className="relative min-h-screen flex flex-col items-center justify-center px-8 overflow-hidden bg-black text-white">
           {/* Background */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#ff6ec7,#4facfe,#00f2fe)] animate-gradient-x" />
           <div className="absolute inset-0 bg-black/70 backdrop-blur-2xl" />
@@ -88,7 +111,7 @@ export default function Home() {
 
           {/* Main Content */}
           <div className="relative z-10 grid md:grid-cols-2 gap-16 max-w-6xl items-center">
-            {/* Left */}
+            {/* Left Side */}
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               animate={{ opacity: 1, x: 0 }}
@@ -123,7 +146,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right */}
+            {/* Right Side */}
             <motion.div
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
@@ -148,6 +171,8 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {/* Social Links at the bottom */}
       <SocialLinks />
     </>
   )
