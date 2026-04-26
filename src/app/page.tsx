@@ -1,170 +1,155 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import SocialLinks from "../components/SocialLinks"
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import SocialLinks from "../components/SocialLinks";
 
 export default function Home() {
-  const [showPage, setShowPage] = useState(false)
-  const [hasSpokenOnScroll, setHasSpokenOnScroll] = useState<{ projects: boolean; contact: boolean }>({
-    projects: false,
-    contact: false,
-  })
+  const [showPage, setShowPage] = useState(false);
 
-  // Function to speak text
   const speakText = (text: string) => {
-    if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(text)
+    if (!("speechSynthesis" in window)) return;
 
-      const setVoice = () => {
-        const voices = window.speechSynthesis.getVoices()
-        const friendlyVoice =
-          voices.find(v => v.lang.includes("en") && !v.name.toLowerCase().includes("child")) ||
-          voices[0]
-        utterance.voice = friendlyVoice
-        utterance.rate = 0.9
-        utterance.pitch = 1
-        utterance.volume = 1
-        window.speechSynthesis.speak(utterance)
-      }
+    const run = () => {
+      window.speechSynthesis.cancel();
 
-      // If voices are loaded, speak immediately
-      if (window.speechSynthesis.getVoices().length > 0) {
-        setVoice()
-      } else {
-        // Wait for voices to load
-        window.speechSynthesis.onvoiceschanged = () => setVoice()
-      }
+      const utterance = new SpeechSynthesisUtterance(text);
+
+      const voices = window.speechSynthesis.getVoices();
+      utterance.voice =
+        voices.find(v => v.lang.includes("en")) || voices[0];
+
+      utterance.rate = 0.92;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      window.speechSynthesis.speak(utterance);
+    };
+
+    if (window.speechSynthesis.getVoices().length === 0) {
+      window.speechSynthesis.onvoiceschanged = run;
+    } else {
+      run();
     }
-  }
+  };
 
   useEffect(() => {
-    // Speak immediately on render
-    speakText("Welcome to my Portfolio")
-    const timer = setTimeout(() => setShowPage(true), 2500)
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Scroll-based prompts
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY
-      const viewportHeight = window.innerHeight
-
-      // Speak about Projects section
-      if (scrollY > viewportHeight * 0.2 && !hasSpokenOnScroll.projects) {
-        speakText("Check my Projects section to see my work")
-        setHasSpokenOnScroll(prev => ({ ...prev, projects: true }))
-      }
-
-      // Speak about Contact section
-      if (scrollY > viewportHeight * 1.2 && !hasSpokenOnScroll.contact) {
-        speakText("Feel free to Contact me for collaboration")
-        setHasSpokenOnScroll(prev => ({ ...prev, contact: true }))
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [hasSpokenOnScroll])
+    speakText("Welcome to my Portfolio");
+    const t = setTimeout(() => setShowPage(true), 1800);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <>
       {!showPage ? (
-        <section className="relative min-h-screen flex items-center justify-center bg-black text-white">
+        <section className="min-h-screen flex items-center justify-center bg-black text-white">
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
             className="text-center"
           >
             <motion.div
-              animate={{ rotate: [0, 15, -15, 0] }}
+              animate={{ rotate: [0, 12, -12, 0] }}
               transition={{ repeat: Infinity, duration: 1 }}
-              className="text-9xl"
+              className="text-8xl"
             >
-              🤖
+              ⚡
             </motion.div>
-            <h2 className="mt-6 text-3xl font-bold">
-              Welcome to My Portfolio🚀
+
+            <h2 className="mt-6 text-lg tracking-widest text-gray-400">
+              Welcome to my Portfolio
             </h2>
           </motion.div>
         </section>
       ) : (
-        <section className="relative min-h-screen flex flex-col items-center justify-center px-8 overflow-hidden bg-black text-white">
-          {/* Background */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#ff6ec7,#4facfe,#00f2fe)] animate-gradient-x" />
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-2xl" />
+        <section className="relative min-h-screen flex items-center justify-center bg-black text-white overflow-hidden px-6">
 
-          {/* Animated blobs */}
+          {/* Deep cinematic gradient layers */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#1a1a2e,#000000)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,#0f0c29,#000000)] opacity-70" />
+
+          {/* Neon grid effect */}
+          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[
+          size-[60px_60px]" />
+
+          {/* Floating glow orbs */}
           <motion.div
-            className="absolute top-16 left-10 w-80 h-80 bg-pink-500/30 rounded-full blur-3xl"
-            animate={{ scale: [1, 1.1, 1], rotate: [0, 20, -20, 0] }}
+            className="absolute w-125] h-125 bg-pink-500/20 blur-3xl rounded-full top-10 left-10"
+            animate={{ scale: [1, 1.15, 1] }}
             transition={{ duration: 6, repeat: Infinity }}
           />
+
           <motion.div
-            className="absolute bottom-24 right-10 w-96 h-96 bg-cyan-400/30 rounded-full blur-3xl"
-            animate={{ scale: [1, 1.05, 1], rotate: [0, -20, 20, 0] }}
+            className="absolute w-150 h-150 bg-cyan-500/20 blur-3xl rounded-full bottom-10 right-10"
+            animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 7, repeat: Infinity }}
           />
 
           {/* Main Content */}
-          <div className="relative z-10 grid md:grid-cols-2 gap-16 max-w-6xl items-center">
-            {/* Left Side */}
+          <div className="relative z-10 grid md:grid-cols-2 gap-20 max-w-6xl items-center">
+
+            {/* LEFT */}
             <motion.div
-              initial={{ opacity: 0, x: -60 }}
+              initial={{ opacity: 0, x: -80 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1 }}
-              className="text-center md:text-left space-y-6"
+              className="space-y-6"
             >
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight">
-                Hi, I’m <span className="text-pink-400">Usman Yousaf</span>
+              <h1 className="text-6xl md:text-7xl font-extrabold leading-tight">
+                Usman <span className="text-cyan-400">Yousaf</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-300">
-                Crafting <span className="text-cyan-300 font-semibold">AI-driven automation</span> and
-                intelligent workflows with <span className="font-semibold">Next.js</span>,{" "}
-                <span className="font-semibold">TypeScript</span>, & <span className="font-semibold">n8n</span>.
-              </p>
-              <p className="text-gray-400 max-w-xl">
-                Transforming ideas into scalable, high-performance digital solutions for modern businesses.
+
+              <p className="text-lg text-gray-300">
+                Building <span className="text-pink-400 font-semibold">AI Systems</span>,  
+                Modern Web Apps & High-Performance Digital Products.
               </p>
 
-              <div className="flex gap-4 pt-4 justify-center md:justify-start">
+              <p className="text-gray-500 max-w-xl">
+                Specializing in Next.js, TypeScript, automation workflows and scalable UI engineering for modern businesses.
+              </p>
+
+              {/* CTA */}
+              <div className="flex gap-4 pt-4">
                 <a
                   href="/projects"
-                  className="px-7 py-3 rounded-xl bg-pink-500 hover:bg-pink-600 transition font-semibold shadow-lg hover:scale-105"
+                  className="px-8 py-3 rounded-xl bg-linear-to-r from-pink-500 to-cyan-400 text-black font-semibold hover:scale-105 transition"
                 >
-                  Explore Projects
+                  View Work
                 </a>
+
                 <a
                   href="/contact"
-                  className="px-7 py-3 rounded-xl border border-white/30 hover:bg-white/10 transition font-semibold hover:scale-105"
+                  className="px-8 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition"
                 >
-                  Get in Touch
+                  Contact
                 </a>
               </div>
             </motion.div>
 
-            {/* Right Side */}
+            {/* RIGHT */}
             <motion.div
-              initial={{ opacity: 0, x: 60 }}
+              initial={{ opacity: 0, x: 80 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1 }}
               className="flex justify-center"
             >
               <div className="relative">
+
+                {/* glow ring */}
                 <motion.div
-                  className="absolute inset-0 rounded-full bg-linear-to-r from-pink-500 via-yellow-400 to-cyan-400 blur-3xl opacity-70"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 5, repeat: Infinity }}
+                  className="absolute inset-0 rounded-full bg-linear-to-r from-pink-500 via-purple-500 to-cyan-400 blur-3xl opacity-70"
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
                 />
+
                 <Image
                   src="/1.jpg"
-                  alt="Usman Yousaf"
-                  width={380}
-                  height={380}
-                  className="relative rounded-full object-cover border-4 border-white/40 shadow-2xl hover:scale-105 transition-transform"
+                  alt="Usman"
+                  width={400}
+                  height={400}
+                  className="relative rounded-full border border-white/20 shadow-2xl"
                 />
               </div>
             </motion.div>
@@ -172,8 +157,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* Social Links at the bottom */}
       <SocialLinks />
     </>
-  )
+  );
 }

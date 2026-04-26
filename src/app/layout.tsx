@@ -1,8 +1,10 @@
-import "./globals.css"
-import type { Metadata } from "next"
-import Navbar from ".././components/Navbar"
-import Footer from ".././components/Footer"
-import SocialLinks from "../components/SocialLinks"
+import "./globals.css";
+import type { Metadata } from "next";
+
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import SocialLinks from "@/components/SocialLinks";
+import AIAssistant from "@/components/AIAssistant";
 
 export const metadata: Metadata = {
   title: "Usman Yousaf — Portfolio",
@@ -17,30 +19,37 @@ export const metadata: Metadata = {
     "AI Automation",
   ],
   authors: [{ name: "Usman Yousaf" }],
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-background text-foreground font-sans antialiased flex flex-col">
-        {/* Navbar */}
+      <body className="min-h-screen bg-black text-white font-sans antialiased flex flex-col">
+
+        {/* NAVBAR */}
         <header className="sticky top-0 z-50 backdrop-blur-xl bg-black/60 border-b border-white/10">
           <Navbar />
         </header>
-<SocialLinks />
-        {/* Main */}
+
+        {/* SOCIAL FLOAT */}
+        <SocialLinks />
+
+        {/* MAIN CONTENT */}
         <main className="flex-1 w-full">{children}</main>
 
-        {/* Footer */}
+        {/* FOOTER */}
         <footer className="border-t border-white/10 bg-black/80 backdrop-blur-xl">
           <Footer />
         </footer>
+
+        {/* 🤖 AI ASSISTANT (FIXED - NOW ACTIVE) */}
+        <AIAssistant />
+
       </body>
     </html>
-    
-  )
+  );
 }
