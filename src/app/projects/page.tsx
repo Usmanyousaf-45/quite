@@ -31,12 +31,17 @@ const projects: Project[] = [
     image: "/4.png",
     link: "https://billing-psi-eight.vercel.app/",
   },
+  {
+    title: "Games Collection",
+    description: "A fun collection of interactive mini games with smooth UI and engaging experience.",
+    image: "/5.png",
+    link: "https://v0-gamehub-arcade.vercel.app/",
+  },
 ]
 
 export default function ProjectsPage() {
   const [showPage, setShowPage] = useState(false)
 
-  // Function to speak loader text smoothly
   const speakText = (text: string) => {
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance(text)
@@ -47,8 +52,8 @@ export default function ProjectsPage() {
         voices[0]
 
       utterance.voice = friendlyVoice
-      utterance.rate = 0.9  // smooth and clear
-      utterance.pitch = 1    // normal pitch
+      utterance.rate = 0.9
+      utterance.pitch = 1
       utterance.volume = 1
 
       window.speechSynthesis.speak(utterance)
@@ -56,12 +61,10 @@ export default function ProjectsPage() {
   }
 
   useEffect(() => {
-    // Speak immediately when loader appears
     const voiceTimeout = setTimeout(() => {
       speakText("Here are some of my projects")
     }, 100)
 
-    // Show main page after 2.5s
     const pageTimer = setTimeout(() => setShowPage(true), 2500)
 
     return () => {
@@ -87,6 +90,7 @@ export default function ProjectsPage() {
             >
               🤖
             </motion.div>
+
             <h2 className="mt-6 text-3xl font-bold">
               Here are some of my projects 🛠️
             </h2>
@@ -104,6 +108,7 @@ export default function ProjectsPage() {
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 4, repeat: Infinity }}
           />
+
           <motion.div
             className="absolute bottom-10 right-10 h-96 w-96 rounded-full bg-pink-500/30 blur-3xl"
             animate={{ scale: [1, 1.05, 1] }}
