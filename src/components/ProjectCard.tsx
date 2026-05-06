@@ -1,7 +1,9 @@
-import Image from "next/image"
-import Link from "next/link"
+"use client"
 
-interface ProjectCardProps {
+import { motion } from "framer-motion"
+import Image from "next/image"
+
+type Props = {
   title: string
   description: string
   image: string
@@ -13,27 +15,33 @@ export default function ProjectCard({
   description,
   image,
   link,
-}: ProjectCardProps) {
+}: Props) {
   return (
-    <Link
-      href={link}
-      target="_blank"
-      className="group relative block overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-xl transition hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]"
+    <motion.div
+      whileHover={{
+        rotateX: 8,
+        rotateY: -8,
+        scale: 1.05,
+      }}
+      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+      className="group relative rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl overflow-hidden"
     >
+      {/* Glow Effect */}
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition duration-500 blur-xl" />
+
       {/* Image */}
-      <div className="relative h-56 w-full overflow-hidden">
+      <div className="relative h-52 w-full overflow-hidden">
         <Image
           src={image}
           alt={title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-white">
+      <div className="p-5 relative z-10">
+        <h3 className="text-xl font-semibold text-white group-hover:text-cyan-300 transition">
           {title}
         </h3>
 
@@ -41,10 +49,22 @@ export default function ProjectCard({
           {description}
         </p>
 
-        <span className="mt-4 inline-block text-sm font-medium text-pink-400 transition group-hover:text-cyan-400">
-          View Project →
-        </span>
+        {/* Button */}
+        <div className="mt-4">
+          <a
+            href={link || "#"}
+            target="_blank"
+            className="inline-block text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-cyan-500 px-4 py-2 rounded-lg shadow-lg hover:scale-105 transition"
+          >
+            View Project →
+          </a>
+        </div>
       </div>
-    </Link>
+
+      {/* Shine Effect */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition">
+        <div className="absolute -left-full top-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg] animate-shine" />
+      </div>
+    </motion.div>
   )
 }

@@ -16,8 +16,8 @@ const projects: Project[] = [
   {
     title: "E-commerce Store",
     description: "Modern e-commerce platform with clean UI and smooth UX.",
-    image: "/3.png",
-    link: "https://e-commerece-two-theta.vercel.app/",
+    image: "/com.png",
+    link: "https://v0-ecommerce-platform-build-five.vercel.app/",
   },
   {
     title: "Usman GPT",
@@ -37,35 +37,45 @@ const projects: Project[] = [
     image: "/5.png",
     link: "https://v0-gamehub-arcade.vercel.app/",
   },
+
+  // ✅ NEW PROJECT (no link yet)
+  {
+    title: "construction company website",
+    description:"A professional construction company website featuring modern UI, service highlights, project showcase, and fully responsive design.",
+    image: "/image.png",
+    link: "https://v0-construction-company-website-olive.vercel.app/",
+  },
 ]
 
 export default function ProjectsPage() {
   const [showPage, setShowPage] = useState(false)
 
   const speakText = (text: string) => {
-    if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(text)
+    if (!("speechSynthesis" in window)) return
 
-      const voices = window.speechSynthesis.getVoices()
-      const friendlyVoice =
-        voices.find(v => v.lang.includes("en") && !v.name.toLowerCase().includes("child")) ||
-        voices[0]
+    const utterance = new SpeechSynthesisUtterance(text)
+    const voices = window.speechSynthesis.getVoices()
 
-      utterance.voice = friendlyVoice
-      utterance.rate = 0.9
-      utterance.pitch = 1
-      utterance.volume = 1
+    const friendlyVoice =
+      voices.find(v => v.lang.includes("en") && !v.name.toLowerCase().includes("child")) ||
+      voices[0]
 
-      window.speechSynthesis.speak(utterance)
-    }
+    if (friendlyVoice) utterance.voice = friendlyVoice
+
+    utterance.rate = 0.9
+    utterance.pitch = 1
+    utterance.volume = 1
+
+    window.speechSynthesis.cancel() // 🔥 fix overlapping
+    window.speechSynthesis.speak(utterance)
   }
 
   useEffect(() => {
     const voiceTimeout = setTimeout(() => {
       speakText("Here are some of my projects")
-    }, 100)
+    }, 200)
 
-    const pageTimer = setTimeout(() => setShowPage(true), 2500)
+    const pageTimer = setTimeout(() => setShowPage(true), 2000)
 
     return () => {
       clearTimeout(voiceTimeout)
@@ -84,57 +94,53 @@ export default function ProjectsPage() {
             className="text-center"
           >
             <motion.div
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 1 }}
-              className="text-9xl"
+              animate={{ rotate: [0, 12, -12, 0] }}
+              transition={{ repeat: Infinity, duration: 1.2 }}
+              className="text-8xl"
             >
               🤖
             </motion.div>
 
-            <h2 className="mt-6 text-3xl font-bold">
-              Here are some of my projects 🛠️
+            <h2 className="mt-6 text-3xl font-bold tracking-wide">
+              Loading Projects...
             </h2>
           </motion.div>
         </section>
       ) : (
         <section className="relative min-h-screen overflow-hidden px-6 py-24 text-white">
           {/* Background */}
-          <div className="absolute inset-0 bg-linear-to-tr from-pink-500/30 via-purple-500/30 to-cyan-500/30" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/30 via-purple-500/30 to-cyan-500/30" />
           <div className="absolute inset-0 bg-black/70 backdrop-blur-2xl" />
 
           {/* Animated Blobs */}
           <motion.div
             className="absolute top-24 -left-32 h-96 w-96 rounded-full bg-purple-600/40 blur-3xl"
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 4, repeat: Infinity }}
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: 5, repeat: Infinity }}
           />
 
           <motion.div
             className="absolute bottom-10 right-10 h-96 w-96 rounded-full bg-pink-500/30 blur-3xl"
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 5, repeat: Infinity }}
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 6, repeat: Infinity }}
           />
 
           <div className="relative z-10 mx-auto max-w-7xl">
             <SectionTitle
-              title="Featured Projects"
-              subtitle="A selection of projects showcasing design, performance, and automation excellence."
+              title="🚀 Featured Projects"
+              subtitle="A selection of my best projects with modern UI and performance."
             />
 
-            <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {projects.map((project, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: idx * 0.2 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: idx * 0.15 }}
                 >
-                  <ProjectCard
-                    title={project.title}
-                    description={project.description}
-                    image={project.image}
-                    link={project.link}
-                  />
+                  <ProjectCard {...project} />
                 </motion.div>
               ))}
             </div>
